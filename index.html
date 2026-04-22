@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>دليل ASHRAE 170 الميداني – اجتياز سباهي CBAHI</title>
+  <!-- خطوط عربية -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      background: #f5f7fc;
+      color: #1e293b;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    /* تخطيط الشريط الجانبي + المحتوى */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* شريط جانبي */
+    .sidebar {
+      width: 280px;
+      background: #ffffffdd;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.9);
+      border-left: 1px solid #e2e8f0;
+      padding: 24px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.03);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    body.dark .sidebar {
+      background: #1e293bdd;
+      backdrop-filter: blur(10px);
+      border-left-color: #334155;
+    }
+
+    .sidebar-header {
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #3b82f6;
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    body.dark .sidebar-header h2 {
+      color: #f1f5f9;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 8px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: #334155;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    body.dark .sidebar-nav a {
+      color: #cbd5e1;
+    }
+
+    .sidebar-nav a:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .sidebar-nav a i {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* المحتوى الرئيسي */
+    .main-content {
+      flex: 1;
+      padding: 32px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* الهيدر العلوي */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .page-title h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    body.dark .page-title h1 {
+      color: #f8fafc;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 40px;
+      border: none;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+
+    body.dark .btn {
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+
+    .btn-outline {
+      background: transparent;
+    }
+
+    /* بطاقات */
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+      border: 1px solid #f1f5f9;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    body.dark .card {
+      background: #1e293b;
+      border-color: #334155;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .card-header i {
+      font-size: 28px;
+      color: #3b82f6;
+    }
+
+    .card-header h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    /* جداول */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    body.dark .table-wrapper {
+      border-color: #334155;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      min-width: 1000px;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 16px 12px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    body.dark th {
+      background: #0f172a;
+      border-bottom-color: #475569;
+    }
+
+    td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    body.dark td {
+      border-bottom-color: #334155;
+    }
+
+    .pressure-positive { background: #dcfce7; color: #166534; font-weight: 700; }
+    .pressure-negative { background: #fee2e2; color: #991b1b; font-weight: 700; }
+    .pressure-balanced { background: #dbeafe; color: #1e40af; font-weight: 700; }
+
+    body.dark .pressure-positive { background: #14532d; color: #dcfce7; }
+    body.dark .pressure-negative { background: #7f1d1d; color: #fee2e2; }
+    body.dark .pressure-balanced { background: #1e3a8a; color: #dbeafe; }
+
+    /* مربعات البحث والتصفية */
+    .table-controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      padding: 12px 20px;
+      border-radius: 40px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-family: inherit;
+      min-width: 280px;
+    }
+
+    body.dark .search-input {
+      background: #0f172a;
+      border-color: #475569;
+      color: white;
+    }
+
+    /* قسم الإجراءات */
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .step-card {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 24px;
+      border-right: 6px solid #3b82f6;
+    }
+
+    body.dark .step-card {
+      background: #0f172a;
+    }
+
+    .formula {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 16px;
+      font-family: monospace;
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* شريط أدوات التحرير العائم */
+    .edit-toolbar {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: white;
+      border-radius: 60px;
+      padding: 8px 16px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+      display: none;
+      gap: 12px;
+      z-index: 1000;
+      border: 1px solid #e2e8f0;
+    }
+
+    body.dark .edit-toolbar {
+      background: #1e293b;
+    }
+
+    .edit-toolbar.active {
+      display: flex;
+    }
+
+    /* تنسيقات المحتوى القابل للتحرير */
+    [contenteditable="true"] {
+      background: #fef9c3;
+      border-radius: 6px;
+      outline: 2px dashed #eab308;
+      transition: background 0.2s;
+    }
+
+    body.dark [contenteditable="true"] {
+      background: #3f3c1b;
+    }
+
+    /* تنسيق الروابط الخارجية */
+    .external-tools {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .external-btn {
+      background: #0f172a;
+      color: white;
+      padding: 18px 28px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      transition: 0.2s;
+      border: 1px solid #334155;
+    }
+
+    body.dark .external-btn {
+      background: #3b82f6;
+      border-color: #60a5fa;
+    }
+
+    .external-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+    }
+
+    /* تجاوب */
+    @media (max-width: 900px) {
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: relative; }
+      .main-content { padding: 20px; }
+    }
+
+    /* عناصر مساعدة */
+    .badge {
+      background: #3b82f6;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
+
+    .highlight {
+      background: #fef08a;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .faq-item {
+      margin-bottom: 24px;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body class="">
+  <div class="app-container">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>دليل سباهي 170</h2>
+        <p style="margin-top: 8px; opacity: 0.8;">ASHRAE 170 Field Guide</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#intro"><i class="fas fa-info-circle"></i> المقدمة وخطة سباهي</a></li>
+        <li><a href="#tables"><i class="fas fa-table"></i> جداول المعايير</a></li>
+        <li><a href="#procedures"><i class="fas fa-tools"></i> الإجراءات العملية</a></li>
+        <li><a href="#faq"><i class="fas fa-question-circle"></i> أسئلة المقيمين</a></li>
+        <li><a href="#tools"><i class="fas fa-flask"></i> أدوات المحاكاة</a></li>
+        <li><a href="#edit-section"><i class="fas fa-edit"></i> وضع التحرير</a></li>
+      </ul>
+      <div style="margin-top: 40px;">
+        <button class="btn btn-outline" id="darkModeToggle" style="width: 100%;"><i class="fas fa-moon"></i> الوضع الداكن</button>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+      <!-- الشريط العلوي -->
+      <div class="top-bar">
+        <div class="page-title">
+          <h1>مهندس سباهي الاستشاري <span style="font-size: 1rem; background: #3b82f6; color:white; padding:2px 12px; border-radius:30px;">v2.0</span></h1>
+          <p style="margin-top: 8px;">مرجع متكامل لمعايير ASHRAE 170 – إجراءات، جداول، وأدوات قياس</p>
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-primary" id="enableEditMode"><i class="fas fa-pen"></i> تفعيل التحرير</button>
+        </div>
+      </div>
+
+      <!-- القسم الأول: المقدمة وخطة سباهي -->
+      <section id="intro" class="card">
+        <div class="card-header">
+          <i class="fas fa-shield-alt"></i>
+          <h2>المقدمة وخطة اجتياز سباهي (CBAHI Survival)</h2>
+        </div>
+        <div contenteditable="false" class="editable-content">
+          <p>أهلاً بك أيها المهندس/الفني. هذا الدليل صُمم لمساعدتك في <strong>فهم وتطبيق وتوثيق</strong> متطلبات التهوية وفق معيار ASHRAE 170-2017 استعداداً لزيارة تقييم سباهي. كل ملاحظة وردت في التقرير السابق تمت معالجتها هنا مع إجراء تصحيحي جاهز.</p>
+        </div>
+        <div style="margin-top: 28px;">
+          <h3 style="margin-bottom: 16px;"><i class="fas fa-clipboard-list"></i> ملاحظات سباهي والحلول المباشرة</h3>
+          <div class="steps-container">
+            <div class="step-card"><strong>FMS.35.2 – الولادة (L&D)</strong> <br>✅ الإجراء: غرف DR1/2 تتطلب ضغطاً إيجابياً (+). استخدم ميكرومانوميتر لقياس +0.01 بوصة ماء. وثق يومياً. <a href="#tables">راجع الجدول</a>.</div>
+            <div class="step-card"><strong>FMS.35.4 – العناية المركزة (ICU)</strong> <br>✅ الإجراء: ICU/NICU/PICU ضغط متوازن. تأكد من 6 ACH كلي، 2 OA. اطبع نموذج المراقبة.</div>
+            <div class="step-card"><strong>FMS.35.5 – غرف النظافة والمتسخات</strong> <br>✅ Clean: إيجابي (+) 2 ACH. Dirty: سلبي (-) 10 ACH عادم. تحقق من اتجاه الهواء.</div>
+            <div class="step-card"><strong>FMS.35.6 – غرفة عامل النظافة (Janitor)</strong> <br>✅ يجب أن تكون سالبة (-) مع 10 ACH عادم. تأكد من عدم تسرب الروائح.</div>
+            <div class="step-card"><strong>FMS.35.7 – المختبر (Lab)</strong> <br>✅ سلبي (-) عموماً. 6 ACH كلي، 2 OA. تحقق من الضغط بالنسبه للممر.</div>
+            <div class="step-card"><strong>FMS.35.8 – الفرز والصدمات (Trauma)</strong> <br>✅ إيجابي (+) 6 ACH. استخدم الدخان (smoke trail) للتحقق البصري.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم الثاني: الجداول المرجعية -->
+      <section id="tables" class="card">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+          <h2>جداول معايير ASHRAE 170 (بحث وتصفية)</h2>
+        </div>
+        <div class="table-controls">
+          <input type="text" id="tableSearch" class="search-input" placeholder="ابحث عن غرفة... (مثلاً NICU)">
+          <select id="pressureFilter" class="search-input" style="max-width:200px;">
+            <option value="all">كل أنواع الضغط</option>
+            <option value="إيجابي (+)">إيجابي (+)</option>
+            <option value="سلبي (-)">سلبي (-)</option>
+            <option value="متوازن (=)">متوازن (=)</option>
+          </select>
+        </div>
+        <div class="table-wrapper">
+          <table id="ashraeTable">
+            <thead>
+              <tr><th>الغرفة (عربي)</th><th>Room (English)</th><th>درجة الحرارة</th><th>الرطوبة</th><th>ACH كلي</th><th>OA ACH</th><th>الضغط</th></tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- يتم ملؤها عبر JS -->
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top: 12px;"><i class="fas fa-info-circle"></i> <strong>ملاحظة:</strong> غرفة عامل النظافة (Janitorial Closet): سلبي (-) ، 10 ACH عادم، لا رجوع للهواء.</p>
+      </section>
+
+      <!-- القسم الثالث: الإجراءات العملية -->
+      <section id="procedures" class="card">
+        <div class="card-header">
+          <i class="fas fa-microchip"></i>
+          <h2>الإجراءات العملية: قياس الضغط والتدفق</h2>
+        </div>
+        <div class="steps-container">
+          <div class="step-card">
+            <h3><i class="fas fa-wind"></i> 1. طريقة القياس الصحية</h3>
+            <p>ضع خرطوم جهاز الميكرومانوميتر (المرجع) في الممر، وخرطوم القياس تحت باب الغرفة المغلقة. لا تفتح الباب أثناء القياس. سجل القراءة بعد استقرارها (10-15 ثانية).</p>
+            <p><span class="badge">تنبيه</span> تأكد من نظافة الجهاز وعدم ملامسة الأسطح الملوثة.</p>
+          </div>
+          <div class="step-card">
+            <h3><i class="fas fa-calculator"></i> 2. المعادلة الرياضية</h3>
+            <p>لحساب التدفق (CFM) من فرق الضغط:</p>
+            <div class="formula">Q = K × (ΔP)^n</div>
+            <p>حيث K ثابت يعتمد على فتحة التسريب، و n ≈ 0.5 للتدفق المضطرب. لتبسيط العمل الميداني، استخدم جداول التحويل من الشركة المصنعة.</p>
+          </div>
+          <div class="step-card">
+            <h3><i class="fas fa-syringe"></i> 3. تصفير الجهاز (Offset)</h3>
+            <p>قبل القياس، ضع الخرطومين معاً في نفس المنطقة واضغط Zero للتخلص من تأثير الرياح أو الفروقات. المرجع (Reference tube) يوضع خارج الغرفة.</p>
+          </div>
+          <div class="step-card">
+            <h3><i class="fas fa-file-pdf"></i> 4. نموذج التوثيق اليومي</h3>
+            <p>حمّل نموذج المراقبة اليومي (Excel/PDF):</p>
+            <a href="#" onclick="generateLogSheet()" style="display:inline-block; margin-top:10px;" class="btn btn-primary"><i class="fas fa-download"></i> إنشاء سجل المراقبة</a>
+          </div>
+        </div>
+        <div style="margin-top: 24px; background:#f1f5f9; border-radius:16px; padding:20px;" class="editable-content" contenteditable="false">
+          <p><strong>📋 إرشادات إضافية:</strong> يجب تسجيل قراءة الضغط مرتين يومياً (صباحاً ومساءً) مع توقيع الفني. يُحفظ السجل لمدة 3 سنوات على الأقل لاستعراض سباهي.</p>
+        </div>
+      </section>
+
+      <!-- القسم الرابع: الأسئلة المتوقعة -->
+      <section id="faq" class="card">
+        <div class="card-header">
+          <i class="fas fa-comments"></i>
+          <h2>أسئلة مقيم سباهي المتوقعة وإجاباتها</h2>
+        </div>
+        <div class="faq-item"><div class="faq-q">❓ أرني سجلات مراقبة الضغط لآخر 3 أشهر.</div><p>✅ نقدم السجل اليومي (نموذج Excel مطبوع) موقّع من الفني والمشرف.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ كيف تتأكد من أن غرفة العزل سالبة؟</div><p>✅ نستخدم جهاز ميكرومانوميتر يومياً ونظهر قراءة سالبة (> -0.01 in.wg). أيضاً اختبار الدخان المرئي.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ ما هي متطلبات ASHRAE 170 لغرف العمليات؟</div><p>✅ ضغط إيجابي، 20 ACH كلي، 4 OA، درجة حرارة 20-24°م، رطوبة 20-60%، ومصفوفة ناشرات هواء.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ غرفة المواد المتسخة (Soiled Utility) ما مواصفاتها؟</div><p>✅ ضغط سلبي، 10 ACH عادم، لا يعاد تدوير الهواء.</p></div>
+      </section>
+
+      <!-- القسم الخامس: أدوات المحاكاة -->
+      <section id="tools" class="card">
+        <div class="card-header">
+          <i class="fas fa-cubes"></i>
+          <h2>أدوات المحاكاة والنماذج التفاعلية</h2>
+        </div>
+        <div class="external-tools">
+          <a href="https://eng4clay.github.io/Model-1/" target="_blank" class="external-btn"><i class="fas fa-chart-line"></i> الدخول إلى نموذج القياسات (Model-1)</a>
+          <a href="https://eng4clay.github.io/Isolation-Room-Simulation/" target="_blank" class="external-btn"><i class="fas fa-door-open"></i> محاكاة ديناميكية لغرف العزل</a>
+        </div>
+        <p style="margin-top: 24px;">النموذج الأول يساعد في حساب التدفقات، والثاني يحاكي سلوك الضغط عند فتح الأبواب وتأثير المرشحات.</p>
+      </section>
+
+      <!-- قسم التحرير (يظهر عند التفعيل) -->
+      <section id="edit-section" style="display: none;">
+        <!-- محتوى إضافي لوضع التحرير -->
+      </section>
+    </main>
+  </div>
+
+  <!-- شريط أدوات التحرير العائم -->
+  <div class="edit-toolbar" id="editToolbar">
+    <button class="btn btn-primary" id="saveChangesBtn"><i class="fas fa-save"></i> حفظ التغييرات</button>
+    <button class="btn btn-outline" id="resetContentBtn"><i class="fas fa-undo-alt"></i> إعادة تعيين</button>
+    <span style="margin:0 10px;">|</span>
+    <span id="editStatus">وضع التحرير نشط</span>
+  </div>
+
+  <script>
+    (function(){
+      "use strict";
+
+      // ---------- البيانات الأساسية للجدول ----------
+      const defaultRooms = [
+        { ar:"الولادة 1/2", en:"DR 1/2 (Cesarean/LDR)", temp:"20-24 °C / 68-75°F", rh:"20-60%", ach:"6", oa:"2", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"الغرفة المتسخة - ولادة", en:"DR-DIRTY (Soiled Utility)", temp:"21-24 °C", rh:"Max 60%", ach:"10 (عادم)", oa:"Exhaust", press:"سلبي (-)", pressClass:"negative" },
+        { ar:"نظيفة - رجال", en:"MW-CLEAN (Clean Supply)", temp:"21-24 °C", rh:"Max 60%", ach:"2", oa:"1", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"متسخة - رجال", en:"MW-DIRTY (Soiled Utility)", temp:"21-24 °C", rh:"Max 60%", ach:"10 (عادم)", oa:"Exhaust", press:"سلبي (-)", pressClass:"negative" },
+        { ar:"مستودع رجال", en:"MW-STORE (Equipment)", temp:"21-24 °C", rh:"Max 60%", ach:"2", oa:"1", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"مستودع نساء", en:"FW-STORE (Equipment)", temp:"21-24 °C", rh:"Max 60%", ach:"2", oa:"1", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"عناية مركزة نساء", en:"FW-ICU / FM-ICU", temp:"21-24 °C", rh:"30-60%", ach:"6", oa:"2", press:"متوازن (=)", pressClass:"balanced" },
+        { ar:"NICU", en:"NICU (Newborn ICU)", temp:"22-26 °C", rh:"30-60%", ach:"6", oa:"2", press:"متوازن (=)", pressClass:"balanced" },
+        { ar:"PICU", en:"PICU (Pediatric ICU)", temp:"21-24 °C", rh:"30-60%", ach:"6", oa:"2", press:"متوازن (=)", pressClass:"balanced" },
+        { ar:"نظيفة - نساء", en:"FW-CLEAN (Clean Supply)", temp:"21-24 °C", rh:"Max 60%", ach:"2", oa:"1", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"متسخة - نساء", en:"FW-DIRTY (Soiled Utility)", temp:"21-24 °C", rh:"Max 60%", ach:"10 (عادم)", oa:"Exhaust", press:"سلبي (-)", pressClass:"negative" },
+        { ar:"غرفة الإنعاش", en:"CPR / Trauma Room", temp:"21-24 °C", rh:"20-60%", ach:"6", oa:"2", press:"إيجابي (+)", pressClass:"positive" },
+        { ar:"المختبر", en:"Laboratory (General)", temp:"21-24 °C", rh:"20-60%", ach:"6", oa:"2", press:"سلبي (-)", pressClass:"negative" },
+        { ar:"غرفة عامل النظافة", en:"Janitorial Closet", temp:"21-24 °C", rh:"—", ach:"10 (عادم)", oa:"Exhaust", press:"سلبي (-)", pressClass:"negative" },
+        { ar:"غرفة الصدمات", en:"Trauma / Resuscitation", temp:"21-24 °C", rh:"20-60%", ach:"6", oa:"2", press:"إيجابي (+)", pressClass:"positive" }
+      ];
+
+      let currentRooms = [...defaultRooms];
+      const tableBody = document.getElementById('tableBody');
+      const searchInput = document.getElementById('tableSearch');
+      const pressureFilter = document.getElementById('pressureFilter');
+
+      // عرض الجدول
+      function renderTable() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const pressVal = pressureFilter.value;
+        
+        const filtered = currentRooms.filter(r => {
+          const matchSearch = r.ar.toLowerCase().includes(searchTerm) || r.en.toLowerCase().includes(searchTerm);
+          if (!matchSearch) return false;
+          if (pressVal === 'all') return true;
+          return r.press === pressVal;
+        });
+
+        tableBody.innerHTML = filtered.map(r => {
+          let pressCellClass = '';
+          if (r.press.includes('إيجابي')) pressCellClass = 'pressure-positive';
+          else if (r.press.includes('سلبي')) pressCellClass = 'pressure-negative';
+          else if (r.press.includes('متوازن')) pressCellClass = 'pressure-balanced';
+          return `<tr>
+            <td>${r.ar}</td><td>${r.en}</td><td>${r.temp}</td><td>${r.rh}</td><td>${r.ach}</td><td>${r.oa}</td>
+            <td class="${pressCellClass}">${r.press}</td>
+          </tr>`;
+        }).join('');
+      }
+
+      // تحديث القائمة المنسدلة للبحث
+      function bindEvents() {
+        searchInput.addEventListener('input', renderTable);
+        pressureFilter.addEventListener('change', renderTable);
+      }
+
+      // ---------- التحرير المباشر ----------
+      const editableElements = () => document.querySelectorAll('.editable-content, .card p, .card h2, .card h3, .step-card, .faq-item, .external-tools p');
+      let editMode = false;
+      const enableEditBtn = document.getElementById('enableEditMode');
+      const toolbar = document.getElementById('editToolbar');
+      const saveBtn = document.getElementById('saveChangesBtn');
+      const resetBtn = document.getElementById('resetContentBtn');
+      const editStatus = document.getElementById('editStatus');
+
+      // تحميل المحتوى المحفوظ
+      function loadSavedContent() {
+        const saved = localStorage.getItem('ashrae_site_content');
+        if (saved) {
+          try {
+            const data = JSON.parse(saved);
+            // استعادة المحتوى للعناصر
+            document.querySelectorAll('[data-content-id]').forEach(el => {
+              const id = el.getAttribute('data-content-id');
+              if (data[id] !== undefined) el.innerHTML = data[id];
+            });
+            // أيضاً استعادة الجدول إن كان مخزناً
+            if (data.__rooms) {
+              currentRooms = data.__rooms;
+              renderTable();
+            }
+          } catch(e){}
+        }
+      }
+
+      // إسناد معرفات للعناصر القابلة للتحرير
+      function assignContentIds() {
+        document.querySelectorAll('.card').forEach((card, idx) => {
+          const elements = card.querySelectorAll('p, h2, h3, .step-card, .faq-item');
+          elements.forEach((el, subIdx) => {
+            if (!el.hasAttribute('data-content-id')) {
+              el.setAttribute('data-content-id', `el_${idx}_${subIdx}`);
+            }
+          });
+        });
+        // الجدول له معاملة خاصة
+      }
+
+      function enableEditing() {
+        editMode = true;
+        assignContentIds();
+        document.querySelectorAll('[data-content-id]').forEach(el => el.setAttribute('contenteditable', 'true'));
+        toolbar.classList.add('active');
+        editStatus.innerText = 'وضع التحرير نشط – يمكنك تعديل النصوص';
+        enableEditBtn.style.display = 'none';
+      }
+
+      function saveChanges() {
+        const data = {};
+        document.querySelectorAll('[data-content-id]').forEach(el => {
+          data[el.getAttribute('data-content-id')] = el.innerHTML;
+        });
+        // حفظ بيانات الجدول الحالية
+        data.__rooms = currentRooms;
+        localStorage.setItem('ashrae_site_content', JSON.stringify(data));
+        alert('تم حفظ جميع التغييرات في المتصفح.');
+      }
+
+      function resetToDefault() {
+        if(confirm('هل أنت متأكد من إعادة المحتوى إلى الإعدادات الأصلية؟')) {
+          localStorage.removeItem('ashrae_site_content');
+          // استعادة النص الأصلي - سيتم إعادة تحميل الصفحة أسهل
+          location.reload();
+        }
+      }
+
+      function disableEditing() {
+        editMode = false;
+        document.querySelectorAll('[contenteditable="true"]').forEach(el => el.setAttribute('contenteditable', 'false'));
+        toolbar.classList.remove('active');
+        enableEditBtn.style.display = 'inline-flex';
+      }
+
+      // إنشاء نموذج المراقبة
+      window.generateLogSheet = function() {
+        const logWindow = window.open('', '_blank');
+        logWindow.document.write(`
+          <html dir="rtl"><head><title>سجل مراقبة ضغط الغرف – سباهي</title><style>body{font-family:Tajawal;padding:30px;} table{border-collapse:collapse;width:100%;} th,td{border:1px solid #ccc;padding:10px;}</style></head>
+          <body><h2>سجل المراقبة اليومي لضغط الهواء (ASHRAE 170)</h2>
+          <p>التاريخ: ______  المرفق: __________  الفني: ___________</p>
+          <table><tr><th>الغرفة</th><th>الضغط المطلوب</th><th>القراءة (in.wg)</th><th>ملاحظات</th></tr>
+          ${defaultRooms.map(r => `<tr><td>${r.ar}</td><td>${r.press}</td><td></td><td></td></tr>`).join('')}
+          </table><br><button onclick="window.print()">طباعة</button></body></html>
+        `);
+      };
+
+      // الوضع الداكن
+      const darkToggle = document.getElementById('darkModeToggle');
+      darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        darkToggle.innerHTML = document.body.classList.contains('dark') ? '<i class="fas fa-sun"></i> الوضع الفاتح' : '<i class="fas fa-moon"></i> الوضع الداكن';
+      });
+
+      // تهيئة الجدول والأحداث
+      function init() {
+        renderTable();
+        bindEvents();
+        loadSavedContent();
+        assignContentIds(); // للتأكد من وجود معرفات
+
+        enableEditBtn.addEventListener('click', enableEditing);
+        saveBtn.addEventListener('click', saveChanges);
+        resetBtn.addEventListener('click', resetToDefault);
+        
+        // إضافة إمكانية إنهاء التحرير بزر الهروب
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && editMode) {
+            disableEditing();
+          }
+        });
+
+        // تحديث بيانات الجدول عند التعديل (إن تم تعديل النص عبر contenteditable، لكن الجدول ليس contenteditable. نكتفي بحفظه)
+        // يمكننا جعل صفوف الجدول قابلة للتحرير؟ لا نوصي. ولكن سنضيف زر لحفظ الجدول الحالي.
+        // نضيف مستمع لحفظ أي تغيير على currentRooms إذا تغير يدوياً (غير مطبق هنا)
+      }
+
+      // إضافة زر لحفظ الجدول المعدل (لأغراض التحرير)
+      // سنقوم بتمكين تحرير الجدول عبر contenteditable على مستوى الخلية؟ الأمر معقد. نكتفي بحفظ الجدول الموجود.
+      // لنجعل صفوف الجدول قابلة للتحرير عند تفعيل الوضع
+      const originalEnable = enableEditing;
+      enableEditing = function() {
+        originalEnable();
+        // جعل خلايا الجدول قابلة للتحرير
+        document.querySelectorAll('#ashraeTable td').forEach(td => {
+          if (!td.hasAttribute('data-content-id')) {
+            td.setAttribute('data-content-id', 'td_' + Math.random().toString(36));
+          }
+          td.setAttribute('contenteditable', 'true');
+        });
+        // تحديث currentRooms بعد التحرير عن طريق مراقبة التغيير
+      };
+      // حفظ الجدول بعد التحرير
+      const originalSave = saveChanges;
+      saveChanges = function() {
+        // تحديث currentRooms من خلايا الجدول (محاولة)
+        const rows = document.querySelectorAll('#ashraeTable tbody tr');
+        if (rows.length > 0) {
+          const newRooms = [];
+          rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 7) {
+              newRooms.push({
+                ar: cells[0].innerText,
+                en: cells[1].innerText,
+                temp: cells[2].innerText,
+                rh: cells[3].innerText,
+                ach: cells[4].innerText,
+                oa: cells[5].innerText,
+                press: cells[6].innerText,
+                pressClass: cells[6].innerText.includes('إيجابي') ? 'positive' : (cells[6].innerText.includes('سلبي')?'negative':'balanced')
+              });
+            }
+          });
+          if (newRooms.length) currentRooms = newRooms;
+        }
+        originalSave();
+        renderTable(); // إعادة عرض مع الفئات الصحيحة
+      };
+
+      init();
+      // ربط وظيفة التحرير الموسعة
+      window.enableEditing = enableEditing;
+      window.saveChanges = saveChanges;
+    })();
+  </script>
+  <script>
+    // تجهيز وضع التحرير للجداول والعناصر
+    (function secondaryInit(){
+      // بعد تحميل DOM
+      window.addEventListener('DOMContentLoaded', function() {
+        // تأكد من وجود معرفات
+      });
+    })();
+  </script>
+</body>
+</html>
